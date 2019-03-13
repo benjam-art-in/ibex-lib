@@ -13,6 +13,7 @@
 
 #include "ibex_Ctc.h"
 #include "ibex_Bsc.h"
+#include "ibex_Pdc.h"
 #include "ibex_LoupFinder.h"
 #include "ibex_CellBufferOptim.h"
 //#include "ibex_EntailedCtr.h"
@@ -77,7 +78,7 @@ public:
 	 *          the optimizer will only rely on the evaluation of f and will be very slow.
 	 *
 	 */
-	Optimizer(int n, Ctc& ctc, Bsc& bsc, LoupFinder& finder, CellBufferOptim& buffer,
+	Optimizer(int n, Ctc& ctc, Bsc& bsc, Pdc& rej, LoupFinder& finder, CellBufferOptim& buffer,
 			int goal_var,
 			double eps_x=default_eps_x,
 			double rel_eps_f=default_rel_eps_f,
@@ -247,6 +248,8 @@ public:
 	 * Must work on extended boxes.
 	 */
 	Bsc& bsc;
+
+	Pdc& rej;
 
 	/**
 	 * \brief Loup finder algorithm.

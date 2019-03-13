@@ -25,6 +25,7 @@
 #include "ibex_Random.h"
 #include "ibex_CellBeamSearch.h"
 #include "ibex_CellHeap.h"
+#include "ibex_PdcFirstOrder.h"
 
 using namespace std;
 
@@ -61,6 +62,7 @@ DefaultOptimizer::DefaultOptimizer(const System& sys, double rel_eps_f, double a
 			  ctc(get_ext_sys(sys,eps_h)), // warning: we don't know which argument is evaluated first
 //			  rec(new SmearSumRelative(get_ext_sys(sys,eps_h),eps_x)),
 			  rec(new LSmear(get_ext_sys(sys,eps_h),eps_x)),
+			  rec(new PdcFirstOrder(sys, sys.box)),
 			  rec(rigor? (LoupFinder*) new LoupFinderCertify(sys,rec(new LoupFinderDefault(get_norm_sys(sys,eps_h), inHC4))) :
 						 (LoupFinder*) new LoupFinderDefault(get_norm_sys(sys,eps_h), inHC4)),
 			  (CellBufferOptim&) rec(new CellDoubleHeap(get_ext_sys(sys,eps_h))),

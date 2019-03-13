@@ -18,6 +18,7 @@ Memory::Object::~Object() {
 	switch(type) {
 	case CTC:          delete (Ctc*) data; break;
 	case BSC:          delete (Bsc*) data; break;
+	case PDC:          delete (Pdc*) data; break;
 	case SYSTEM:       delete (System*) data; break;
 #ifdef _IBEX_WITH_OPTIM_
 	case LOUP_FINDER:  delete (LoupFinder*) data; break;

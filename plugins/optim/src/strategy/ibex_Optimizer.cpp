@@ -41,11 +41,11 @@ void Optimizer::read_ext_box(const IntervalVector& ext_box, IntervalVector& box)
 	}
 }
 
-Optimizer::Optimizer(int n, Ctc& ctc, Bsc& bsc, LoupFinder& finder,
+Optimizer::Optimizer(int n, Ctc& ctc, Bsc& bsc, Pdc& rej, LoupFinder& finder,
 		CellBufferOptim& buffer,
 		int goal_var, double eps_x, double rel_eps_f, double abs_eps_f) :
                 						n(n), goal_var(goal_var),
-										ctc(ctc), bsc(bsc), loup_finder(finder), buffer(buffer),
+										ctc(ctc), bsc(bsc), rej(rej), loup_finder(finder), buffer(buffer),
 										eps_x(eps_x), rel_eps_f(rel_eps_f), abs_eps_f(abs_eps_f),
 										trace(0), timeout(-1), extended_COV(true),
 										status(SUCCESS),
@@ -251,6 +251,11 @@ void Optimizer::contract_and_bound(Cell& c) {
 
 	// ** important: ** must be done after upper-bounding
 	//kkt.contract(tmp_box);
+	if (rej.test(tmp_box)==NO) {
+		//cout << "rejected!!!!\n";
+		c.box.set_empty();
+		return;
+	}
 
 	if (tmp_box.is_empty()) {
 		c.box.set_empty();

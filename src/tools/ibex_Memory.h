@@ -14,6 +14,7 @@
 #include "ibex_System.h"
 #include "ibex_Bsc.h"
 #include "ibex_Ctc.h"
+#include "ibex_Pdc.h"
 #include "ibex_CellBuffer.h"
 
 #ifdef _IBEX_WITH_OPTIM_ // TODO make Memory::Object more generic
@@ -65,10 +66,11 @@ public:
 		 * We need to record the type of the object (because the "delete" operator
 		 * requires static type cast).
 		 */
-		enum { CTC, BSC, SYSTEM, LOUP_FINDER, CELL_BUFFER, LINEARIZER } type;
+		enum { CTC, BSC, PDC, SYSTEM, LOUP_FINDER, CELL_BUFFER, LINEARIZER } type;
 
 		Object(const Ctc* obj) : data(obj), type(CTC) { }
 		Object(const Bsc* obj) : data(obj), type(BSC) { }
+		Object(const Pdc* obj) : data(obj), type(PDC) { }
 		Object(const System* obj) : data(obj), type(SYSTEM) { }
 #ifdef _IBEX_WITH_OPTIM_
 		Object(const LoupFinder* obj) : data(obj), type(LOUP_FINDER) { }
