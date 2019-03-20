@@ -64,10 +64,11 @@ Optimizer::~Optimizer() {
 // compute the value ymax (decreasing the loup with the precision)
 // the heap and the current box are contracted with y <= ymax
 double Optimizer::compute_ymax() {
-	double ymax = loup - rel_eps_f*fabs(loup);
-	if (loup - abs_eps_f < ymax)
-		ymax = loup - abs_eps_f;
-	return ymax;
+//	double ymax = loup - rel_eps_f*fabs(loup);
+//	if (loup - abs_eps_f < ymax)
+//		ymax = loup - abs_eps_f;
+//	return ymax;
+	return loup;
 }
 
 bool Optimizer::update_loup(const IntervalVector& box, BoxProperties& prop) {
@@ -435,6 +436,10 @@ Optimizer::Status Optimizer::optimize() {
 					}
 				}
 				update_uplo();
+
+				if (get_obj_rel_prec()<rel_eps_f || get_obj_abs_prec()<abs_eps_f)
+					break;
+
 				if (timeout>0) timer.check(timeout); // TODO: not reentrant, JN: done
 				time = timer.get_time();
 
